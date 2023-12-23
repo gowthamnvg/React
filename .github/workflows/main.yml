@@ -18,12 +18,20 @@ jobs:
           node-version: '20.10.x'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --force
 
       - name: Build React app
         run: npm run build
 
       - name: Deploy to GitHub Pages
         run: |
-          npm install -g gh-pages
-          npx gh-pages -d build -b gh-pages -u "${{ secrets.GITHUB_TOKEN }}"
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout --orphan gh-pages
+          git rm -rf .
+          mv build/* .
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git branch -D cablenetwork
+          git branch -m cablenetwork
+          git push -f origin cablenetwork:gh-pages
