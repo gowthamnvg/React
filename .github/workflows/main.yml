@@ -25,10 +25,5 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          git clone https://github.com/${{ github.repository }}.git --branch gh-pages --single-branch gh-pages
-          cd gh-pages
-          rm -rf ./*
-          cp -r ../build/* ./
-          git add -A
-          git commit -m "Deployed to GitHub Pages"
-          git push origin gh-pages
+          npm install -g gh-pages
+          npx gh-pages -d build -b gh-pages -u "${{ secrets.GITHUB_TOKEN }}"
