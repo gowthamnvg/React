@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20.10.x'
+          node-version: '20.x'
 
       - name: Install dependencies
         run: npm install --force
@@ -31,7 +31,5 @@ jobs:
           git rm -rf .
           mv build/* .
           git add .
-          git commit -m "Deploy to GitHub Pages"
-          git branch -D cablenetwork
-          git branch -m cablenetwork
-          git push -f origin cablenetwork:gh-pages
+          git commit -m "Deployed from ${{ github.event_name }} event with commit ${GITHUB_SHA}"
+          git push -f origin gh-pages
